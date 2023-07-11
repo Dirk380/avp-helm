@@ -2,10 +2,9 @@ on:
   workflow_dispatch:
 name: Hello World
 env:
-  hashiUrl: https://securebox.org
+  hashiUrl: https://localhost:8081
   roleName: gha-test-role
   audience: gha-medium
-  namespace: cicd
 jobs:
   hello:
     runs-on: ubuntu-latest
