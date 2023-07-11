@@ -27,7 +27,6 @@ jobs:
           role: ${{ env.roleName }}
           method: jwt
           jwtGithubAudience: ${{ env.audience }}
-          namespace: ${{ env.namespace }}
           tlsSkipVerify: false
           exportEnv: true
           secrets: |
