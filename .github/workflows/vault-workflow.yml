@@ -1,10 +1,13 @@
 on:
   workflow_dispatch:
-name: Hello Vault
+name: Hello World
 jobs:
-  init:
+  hello:
     runs-on: ubuntu-latest
-    name: initialize
+    name: Says Hello World
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - name: Say it
-        run: echo "Hello Vault"
+        run: echo "Hello World"
