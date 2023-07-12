@@ -26,6 +26,6 @@ jobs:
           method: jwt
           jwtGithubAudience: ${{ env.audience }}
           tlsSkipVerify: false
-          exportEnv: true
+          exportEnv: false
           secrets: |
             secret/data/apikeys deploymentServer | DEPLOYMENT_KEY
