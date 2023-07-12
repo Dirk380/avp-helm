@@ -1,5 +1,5 @@
 on:
-  act workflow_dispatch:
+  workflow_dispatch:
 name: Hello World
 env:
   hashiUrl: https://localhost:8081
