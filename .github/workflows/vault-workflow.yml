@@ -1,6 +1,6 @@
 on:
   workflow_dispatch:
-name: Hello World
+name: Retrieve secrets
 env:
   hashiUrl: https://localhost:8081
   roleName: gha-test-role
