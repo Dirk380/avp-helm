@@ -19,7 +19,7 @@ jobs:
         shell: bash
       - name: Retrieve Vault Secrets
         id: retrieve-secrets
-        uses: hashicorp/vault-action@v2.4.1
+        uses: hashicorp/vault-action@v2.7.2
         with:
           url: ${{ env.hashiUrl }}
           role: ${{ env.roleName }}
