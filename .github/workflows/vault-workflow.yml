@@ -25,6 +25,7 @@ jobs:
           role: ${{ env.roleName }}
           method: jwt
           jwtGithubAudience: ${{ env.audience }}
+          caCertificate: ${{ secrets.VAULT_CA_CERT }}
           tlsSkipVerify: false
           exportEnv: false
           secrets: |
