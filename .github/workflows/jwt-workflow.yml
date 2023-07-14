@@ -1,19 +1,14 @@
 on: [push]
 
 jobs:
-  send:
-    name: Send new version
+  hello:
     runs-on: ubuntu-latest
+    name: Token Run
+    permissions:
+      contents: read
+      id-token: write
     steps:
-      - name: JWT Generator
-        id: jwtGenerator
-        uses: morzzz007/github-actions-jwt-generator@1.0.1
-        with:
-          secret: topsecret
-          payload: '{"hello":"world"}'
-
-      - name: Set Token
-        run: echo "TOKEN=${{ steps.jwtGenerator.outputs.token }}" >> $GITHUB_ENV
-
-      - name: Display Token
-        run: echo $TOKEN | base64 --decode
+      - name: Perform token run
+        run: |
+          echo $(curl -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=gha-medium" | base64)
+        shell: bash
