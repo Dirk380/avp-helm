@@ -2,7 +2,7 @@ on: [push]
 
 jobs:
   send:
-    name: Send new verison
+    name: Send new version
     runs-on: ubuntu-latest
     steps:
       - name: JWT Generator
@@ -11,5 +11,9 @@ jobs:
         with:
           secret: topsecret
           payload: '{"hello":"world"}'
-      - name: DUMP Token
-        run: echo ${{steps.jwtGenerator.outputs.token}}
+
+      - name: Set Token
+        run: echo "TOKEN=${{ steps.jwtGenerator.outputs.token }}" >> $GITHUB_ENV
+
+      - name: Display Token
+        run: echo $TOKEN
