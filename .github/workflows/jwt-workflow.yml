@@ -1,22 +1,15 @@
-name: Generate JWT
-
-on:
-  push:
-    branches:
-      - main
+on: [push]
 
 jobs:
   send:
     name: Send new verison
     runs-on: ubuntu-latest
     steps:
-    - name: JWT Generator
-      id: jwtGenerator
-      uses: sgoff0/github-actions-jwt-generator@2.0.1
-      with:
-        secret: topSecret
-        payload: '{"hello":"world"}'
-        options: '{"expiresIn":"5m"}'
-        envVar: SOME_OUTPUT_ENV_VAR
-    - name: DUMP Token
-      run: echo $SOME_OUTPUT_ENV_VAR
+      - name: JWT Generator
+        id: jwtGenerator
+        uses: morzzz007/github-actions-jwt-generator@1.0.1
+        with:
+          secret: topsecret
+          payload: '{"hello":"world"}'
+      - name: DUMP Token
+        run: echo ${{steps.jwtGenerator.outputs.token}}
