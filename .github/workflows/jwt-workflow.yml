@@ -8,17 +8,38 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Install dependencies
+        run: npm install
 
       - name: Generate JWT
         run: |
-          echo -n "${{ secrets.PRIVATE_KEY }}" > private_key.pem
-          printf '{"alg": "RS256", "typ": "JWT"}\n%s\n' "${{ secrets.JWT_PAYLOAD }}" | base64 | tr -d '\n' > headers_payload.base64
-          openssl dgst -sha256 -sign private_key.pem -out jwt_signature.bin headers_payload.base64
-          base64 jwt_signature.bin | tr -d '\n' > jwt_signature.base64
-          printf "%s.%s" $(cat headers_payload.base64) $(cat jwt_signature.base64) > jwt_token
+          export PRIVATE_KEY="${{ secrets.PRIVATE_KEY }}"
+          export JWT_PAYLOAD="${{ secrets.JWT_PAYLOAD }}"
+          
+          echo "$PRIVATE_KEY" > private.key
+          
+          # Install required dependencies (jsonwebtoken)
+          npm install jsonwebtoken
+          
+          # Generate the JWT
+          node -e '
+          const fs = require("fs");
+          const jwt = require("jsonwebtoken");
+          
+          const privateKey = fs.readFileSync("private.key", "utf8");
+          const payload = JSON.parse(process.env.JWT_PAYLOAD);
+          
+          const token = jwt.sign(payload, privateKey, { algorithm: "RS256" });
+          console.log(token);
+          ' > jwt.token
 
       - name: Display JWT
-        run: |
-          echo "::set-output name=jwt::$(cat jwt_token)"
+        run: cat jwt.token
