@@ -21,6 +21,6 @@ jobs:
       - name: Create token.txt
         run: echo ${{steps.jwtGenerator.outputs.token}} > token.txt
       - name: Show token.txt
-        run: cat jwt.txt
+        run: cat token.txt
       - name: Show token.jwt
-        run: cat jwt.jwt
+        run: cat token.jwt
