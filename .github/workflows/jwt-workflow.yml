@@ -8,8 +8,14 @@ jobs:
       contents: read
       id-token: write
     steps:
+      - name: Set Payload
+        id: setPayload
+        run: |
+          echo "::set-env name=PAYLOAD::{\"newKey\":\"newValue\"}"
+
       - name: Perform token run
         run: |
-          payload='{"newKey":"newValue"}'
-          echo $(curl -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" -H "Content-Type: application/json" -d "$payload" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=gha-medium" | base64)
+          echo $(curl -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" -H "Content-Type: application/json" -d "$PAYLOAD" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=gha-medium" | base64)
+        env:
+          PAYLOAD: ${{ steps.setPayload.outputs.PAYLOAD }}
         shell: bash
