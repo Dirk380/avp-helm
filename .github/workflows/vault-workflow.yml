@@ -5,6 +5,7 @@ on:
     branches:
       - main
 
+
 jobs:
   send:
     name: Send new verison
@@ -16,5 +17,7 @@ jobs:
         with:
           secret: topsecret
           payload: '{"hello":"world"}'
+      - name: test
+        run: echo 'test'
       - name: DUMP Token
         run: echo ${{steps.jwtGenerator.outputs.token}}
