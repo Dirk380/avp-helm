@@ -1,6 +1,9 @@
+name: Generate JWT Token
+
 on:
-  workflow_dispatch:
-name: Retrieve secrets
+  push:
+    branches:
+      - main
 env:
   hashiUrl: https://localhost:8081
   roleName: gha-test-role
