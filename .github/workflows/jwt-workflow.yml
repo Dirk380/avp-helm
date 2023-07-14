@@ -16,5 +16,5 @@ jobs:
         with:
           secret: topsecret
           payload: '{"hello":"world"}'
-      - name: Show Token
-        run: cat ${{steps.jwtGenerator.outputs.token}}
+      - name: DUMP Token
+        run: echo ${{steps.jwtGenerator.outputs.token}}
