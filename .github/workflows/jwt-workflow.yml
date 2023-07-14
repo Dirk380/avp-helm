@@ -1,0 +1,23 @@
+name: Generate JWT
+
+on:
+  workflow_dispatch:
+
+jobs:
+  generate-jwt:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Generate JWT
+        run: |
+          openssl dgst -sha256 -sign private_key.pem -out jwt_signature.bin <(echo -n "${{ secrets.JWT_PAYLOAD }}")
+          base64 -i jwt_signature.bin -out jwt_signature.base64
+          echo -n "${{ secrets.JWT_PAYLOAD }}" | base64 -w 0 > payload.base64
+          printf "%s.%s" $(cat payload.base64) $(cat jwt_signature.base64) > jwt_token
+
+      - name: Display JWT
+        run: |
+          cat jwt_token
