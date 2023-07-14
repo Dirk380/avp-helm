@@ -5,20 +5,15 @@ on:
     branches:
       - main
 
-
 jobs:
-  send:
-    name: Send new verison
+  hello:
     runs-on: ubuntu-latest
+    name: Says Hello World
+    permissions:
+      contents: read
+      id-token: write
     steps:
-      - name: JWT Generator
-        id: jwtGenerator
-        uses: morzzz007/github-actions-jwt-generator@1.0.1
-        with:
-          secret: topsecret
-          payload: '{"hello":"world"}'
-      - name: DUMP Token
-        run: echo ${{steps.jwtGenerator.outputs.token}}
-      - name: check env
-        run: env
-
+      - name: Perform token run
+        run: |
+          echo $(curl -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=gha-medium" | base64)
+        shell: bash
