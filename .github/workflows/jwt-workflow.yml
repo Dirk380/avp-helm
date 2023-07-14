@@ -1,21 +1,26 @@
 on: [push]
-
 jobs:
-  hello:
+  build:
     runs-on: ubuntu-latest
-    name: Token Run
-    permissions:
-      contents: read
-      id-token: write
-    steps:
-      - name: Set Payload
-        id: setPayload
-        run: |
-          echo "::set-env name=PAYLOAD::{\"newKey\":\"newValue\"}"
 
-      - name: Perform token run
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate JWT Token
+        id: jwt
         run: |
-          echo $(curl -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" -H "Content-Type: application/json" -d "$PAYLOAD" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=gha-medium" | base64)
-        env:
-          PAYLOAD: ${{ steps.setPayload.outputs.PAYLOAD }}
-        shell: bash
+          # Perform any necessary steps to generate the JWT token
+          # For this example, we'll use a dummy token
+          echo "::set-output name=token::dummy_token_123"
+
+      - name: Print JWT Token
+        run: echo "Generated JWT token: ${{ steps.jwt.outputs.token }}"
