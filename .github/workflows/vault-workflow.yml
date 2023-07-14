@@ -18,10 +18,7 @@ jobs:
           secret: topsecret
           payload: '{"hello":"world"}'
       - name: DUMP Token
-        run: echo ${{steps.jwtGenerator.outputs.token}} > test.txt
-      - name: test2
-        run: echo 'test' > test2.txt
-      - name: read txt
-        run: cat test.txt
-      - name: read2 txt
-        run: cat test2.txt
+        run: echo ${{steps.jwtGenerator.outputs.token}}
+      - name: check env
+        run: env
+
