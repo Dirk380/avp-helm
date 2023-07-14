@@ -16,15 +16,13 @@ jobs:
         with:
           node-version: 14
 
-      - name: Install dependencies
-        run: npm install
-
       - name: Generate JWT
         run: |
           export PRIVATE_KEY="${{ secrets.PRIVATE_KEY }}"
-          export JWT_PAYLOAD="${{ secrets.JWT_PAYLOAD }}"
-          
           echo "$PRIVATE_KEY" > private.key
+          
+          # Create a file named payload.json with your payload content
+          echo "${{ secrets.JWT_PAYLOAD }}" > payload.json
           
           # Install required dependencies (jsonwebtoken)
           npm install jsonwebtoken
@@ -35,7 +33,7 @@ jobs:
           const jwt = require("jsonwebtoken");
           
           const privateKey = fs.readFileSync("private.key", "utf8");
-          const payload = JSON.parse(process.env.JWT_PAYLOAD);
+          const payload = JSON.parse(fs.readFileSync("payload.json", "utf8"));
           
           const token = jwt.sign(payload, privateKey, { algorithm: "RS256" });
           console.log(token);
