@@ -17,7 +17,11 @@ jobs:
         with:
           secret: topsecret
           payload: '{"hello":"world"}'
-      - name: test
-        run: echo 'test'
       - name: DUMP Token
-        run: echo '${{steps.jwtGenerator.outputs.token}}'
+        run: echo ${{steps.jwtGenerator.outputs.token}} > test.txt
+      - name: test2
+        run: echo 'test' > test2.txt
+      - name: read txt
+        run: cat test.txt
+      - name: read2 txt
+        run: cat test2.txt
