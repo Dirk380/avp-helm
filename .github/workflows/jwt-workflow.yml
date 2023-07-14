@@ -21,4 +21,4 @@ jobs:
 
       - name: Display JWT
         run: |
-          cat jwt_token
+          echo "::set-output name=jwt::$(cat jwt_token)"
