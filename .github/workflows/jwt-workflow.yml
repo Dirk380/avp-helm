@@ -19,7 +19,6 @@ jobs:
           base64 jwt_signature.bin | tr -d '\n' > jwt_signature.base64
           printf "%s.%s" $(cat headers_payload.base64) $(cat jwt_signature.base64) > jwt_token
 
-
       - name: Display JWT
         run: |
           cat jwt_token
