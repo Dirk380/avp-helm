@@ -16,4 +16,4 @@ jobs:
         run: echo "TOKEN=${{ steps.jwtGenerator.outputs.token }}" >> $GITHUB_ENV
 
       - name: Display Token
-        run: echo $TOKEN
+        run: echo $TOKEN | base64 --decode
