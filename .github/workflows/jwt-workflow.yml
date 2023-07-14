@@ -4,40 +4,15 @@ on:
   workflow_dispatch:
 
 jobs:
-  generate-jwt:
+  send:
+    name: Send new verison
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      - name: JWT Generator
+        id: jwtGenerator
+        uses: morzzz007/github-actions-jwt-generator@1.0.1
         with:
-          node-version: 14
-
-      - name: Generate JWT
-        run: |
-          export PRIVATE_KEY="${{ secrets.PRIVATE_KEY }}"
-          echo "$PRIVATE_KEY" > private.key
-          
-          # Create a file named payload.json with your payload content
-          echo "${{ secrets.JWT_PAYLOAD }}" > payload.json
-          
-          # Install required dependencies (jsonwebtoken)
-          npm install jsonwebtoken
-          
-          # Generate the JWT
-          node -e '
-          const fs = require("fs");
-          const jwt = require("jsonwebtoken");
-          
-          const privateKey = fs.readFileSync("private.key", "utf8");
-          const payload = JSON.parse(fs.readFileSync("payload.json", "utf8"));
-          
-          const token = jwt.sign(payload, privateKey, { algorithm: "RS256" });
-          console.log(token);
-          ' > jwt.token
-
-      - name: Display JWT
-        run: cat jwt.token
+          secret: topsecret
+          payload: '{"hello":"world"}'
+      - name: DUMP Token
+        run: echo ${{steps.jwtGenerator.outputs.token}}
