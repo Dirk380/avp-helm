@@ -15,9 +15,10 @@ jobs:
         run: |
           echo -n "${{ secrets.PRIVATE_KEY }}" > private_key.pem
           openssl dgst -sha256 -sign private_key.pem -out jwt_signature.bin <(echo -n "${{ secrets.JWT_PAYLOAD }}")
-          base64 -i jwt_signature.bin -out jwt_signature.base64
-          echo -n "${{ secrets.JWT_PAYLOAD }}" | base64 -w 0 > payload.base64
+          base64 jwt_signature.bin > jwt_signature.base64
+          echo -n "${{ secrets.JWT_PAYLOAD }}" | base64 > payload.base64
           printf "%s.%s" $(cat payload.base64) $(cat jwt_signature.base64) > jwt_token
+
       - name: Display JWT
         run: |
           cat jwt_token
