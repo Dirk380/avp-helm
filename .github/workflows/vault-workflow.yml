@@ -5,7 +5,7 @@ on:
     branches:
       - main
 env:
-  hashiUrl: https://localhost:8081
+  hashiUrl: https://vault.f0a36040db9590fb3917.kpnappfactory.nl/
   roleName: gha-test-role
   audience: gha-medium
 jobs:
